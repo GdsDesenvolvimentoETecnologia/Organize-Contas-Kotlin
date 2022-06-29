@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ProjetosAndroid/Kotlin/Organize-Contas-Kotlin/app/src/main/res/layout/activity_intro.xml" value="0.10989583333333333" />
+        <entry key="..\:/ProjetosAndroid/Kotlin/Organize-Contas-Kotlin/app/src/main/res/layout/activity_intro2.xml" value="0.10989583333333333" />
+        <entry key="..\:/ProjetosAndroid/Kotlin/Organize-Contas-Kotlin/app/src/main/res/layout/activity_intro3.xml" value="0.10989583333333333" />
+        <entry key="..\:/ProjetosAndroid/Kotlin/Organize-Contas-Kotlin/app/src/main/res/layout/activity_intro4.xml" value="0.10989583333333333" />
+        <entry key="..\:/ProjetosAndroid/Kotlin/Organize-Contas-Kotlin/app/src/main/res/layout/activity_intro_cadastro.xml" value="0.2" />
         <entry key="..\:/Users/Gabriel/AndroidStudioProjects/Kotlin/OrganizeContas/app/src/main/res/layout/activity_main.xml" value="0.25" />
       </map>
     </option>

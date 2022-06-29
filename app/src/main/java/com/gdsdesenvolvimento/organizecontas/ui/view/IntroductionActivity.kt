@@ -6,5 +6,6 @@ import com.heinrichreimersoftware.materialintro.app.IntroActivity
 class IntroductionActivity : IntroActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 }
