@@ -23,6 +23,7 @@ class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
 
     private fun SplashActivity.timeDelay(function: () -> Unit) {
         Handler(Looper.myLooper()!!).postDelayed({
+            finish()
             function()
         }, TIME_DELAY)
     }
