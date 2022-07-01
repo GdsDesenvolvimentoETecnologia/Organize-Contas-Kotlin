@@ -16,12 +16,19 @@ class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
     }
 
     private fun SplashActivity.splashAction() {
-        timerSplash {
+        timeDelay {
             nextScreen(IntroductionActivity())
         }
     }
 
-    private fun SplashActivity.timerSplash(function: () -> Unit) {
-        Handler(Looper.myLooper()!!).postDelayed({ function() }, 3000)
+    private fun SplashActivity.timeDelay(function: () -> Unit) {
+        Handler(Looper.myLooper()!!).postDelayed({
+            function()
+        }, TIME_DELAY)
     }
+
+    companion object {
+        const val TIME_DELAY = 3000L
+    }
+
 }
