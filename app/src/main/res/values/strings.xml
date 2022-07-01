@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">Organize Contas</string>
     <string name="bank_cards">bank cards</string>
+    <string name="O">O</string>
+    <string name="R">R</string>
+    <string name="G">G</string>
+    <string name="A">A</string>
+    <string name="N">N</string>
+    <string name="I">I</string>
+    <string name="Z">Z</string>
+    <string name="E">E</string>
+    <string name="C">C</string>
+    <string name="T">T</string>
+    <string name="S">S</string>
 </resources>
