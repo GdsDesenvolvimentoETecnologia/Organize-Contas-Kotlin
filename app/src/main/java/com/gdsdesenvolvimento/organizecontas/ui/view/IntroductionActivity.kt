@@ -1,10 +1,12 @@
 package com.gdsdesenvolvimento.organizecontas.ui.view
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
 import com.gdsdesenvolvimento.organizecontas.R
+import com.gdsdesenvolvimento.organizecontas.utils.extensions.nextScreen
 import com.heinrichreimersoftware.materialintro.app.IntroActivity
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide
 
@@ -43,4 +45,7 @@ class IntroductionActivity : IntroActivity() {
                 .build()
         )
     }
+
+    fun login(view: View) = nextScreen(LoginActivity())
+    fun register(view: View) = nextScreen(RegisterActivity())
 }
