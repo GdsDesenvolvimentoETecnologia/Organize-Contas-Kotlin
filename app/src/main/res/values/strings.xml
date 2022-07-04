@@ -23,4 +23,5 @@
     <string name="falha">Falha</string>
     <string name="nao_foi_possivel_cadastrar">Nao foi possivel cadastrar</string>
     <string name="carregando">Carregando</string>
+    <string name="falha_ao_fazer_login">Falha ao fazer login</string>
 </resources>

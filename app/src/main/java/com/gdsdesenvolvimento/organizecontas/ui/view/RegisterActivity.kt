@@ -130,14 +130,12 @@ class RegisterActivity : AppCompatActivity() {
                     setEditError(phone, result.msg)
                 }
                 is RegisterFormState.Success -> {
-                    result.data?.let { userRegister ->
-                        newUser = UserRegister(
-                            nome = userRegister.nome,
-                            email = userRegister.email,
-                            password = userRegister.password,
-                            phone = userRegister.phone
-                        )
-                    }
+                    newUser = DI.getUseRegister(
+                        result.data.nome,
+                        result.data.email,
+                        result.data.password,
+                        result.data.phone
+                    )
                     binding.button.isEnabled = true
                 }
             }
@@ -155,7 +153,12 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
                 is FormResult.Error -> {
-                    dialog(this, getString(R.string.falha), getString(R.string.nao_foi_possivel_cadastrar), true) {
+                    dialog(
+                        this,
+                        getString(R.string.falha),
+                        getString(R.string.nao_foi_possivel_cadastrar),
+                        true
+                    ) {
                         finish()
                     }
                 }
