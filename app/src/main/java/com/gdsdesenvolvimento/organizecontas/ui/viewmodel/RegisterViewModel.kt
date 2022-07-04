@@ -10,20 +10,13 @@ import com.google.firebase.FirebaseException
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(private val authRepo: AuthenticatorRepository) : ViewModel() {
-    private lateinit var user: UserRegister
 
     private var _registerFormState = MutableLiveData<RegisterFormState>()
     val registerFormState: LiveData<RegisterFormState> get() = _registerFormState
 
-    private var _isDataValid = MutableLiveData<Boolean>()
-    val isDataValid: LiveData<Boolean> get() = _isDataValid
-
     private var _formResult = MutableLiveData<FormResult>()
     val formResult: LiveData<FormResult> get() = _formResult
 
-    init {
-        _isDataValid.value
-    }
 
     fun registerEmailWithPassword(email: String, password: String) = viewModelScope.launch {
         _formResult.value = FormResult.Loading
@@ -49,6 +42,44 @@ class RegisterViewModel(private val authRepo: AuthenticatorRepository) : ViewMod
         phone: String
     ) {
         verifyStringNotEmpty(nome, email, senha, confirmSenha, phone)
+        verifyTypeText(nome, email, senha, confirmSenha, phone)
+    }
+
+    private fun verifyStringNotEmpty(
+        nome: String,
+        email: String,
+        senha: String,
+        confirmSenha: String,
+        phone: String
+    ) {
+        if (nome.isEmpty()) {
+            _registerFormState.value = RegisterFormState.ErrorEmpty.ErrorNameEmpty("nome em branco")
+        }
+        if (email.isEmpty()) {
+            _registerFormState.value =
+                RegisterFormState.ErrorEmpty.ErrorEmailEmpty("email em branco ")
+        }
+        if (senha.isEmpty()) {
+            _registerFormState.value =
+                RegisterFormState.ErrorEmpty.ErrorPasswordEmpty("Senha em branco ")
+        }
+        if (confirmSenha.isEmpty()) {
+            _registerFormState.value =
+                RegisterFormState.ErrorEmpty.ErrorConfirmPasswordEmpty("confirma senha em branco")
+        }
+        if (phone.isEmpty()) {
+            _registerFormState.value =
+                RegisterFormState.ErrorEmpty.ErrorPhoneEmpty("telefone em branco")
+        }
+    }
+
+    private fun verifyTypeText(
+        nome: String,
+        email: String,
+        senha: String,
+        confirmSenha: String,
+        phone: String
+    ) {
         if (!FormValidation.isNameValid(nome)) {
             _registerFormState.value =
                 RegisterFormState.ErrorQtdCharactersInvalid("Quantidade de caracteres invalido")
@@ -65,33 +96,13 @@ class RegisterViewModel(private val authRepo: AuthenticatorRepository) : ViewMod
             _registerFormState.value =
                 RegisterFormState.ErrorPhoneInvalid("Formato de telefone invalido")
         } else {
-            _registerFormState.value = RegisterFormState.Success("Formulario correto")
+            val user = UserRegister(nome, email, senha, phone)
+            _registerFormState.value = RegisterFormState.Success(user)
 
         }
     }
 
-    private fun verifyStringNotEmpty(
-        nome: String,
-        email: String,
-        senha: String,
-        confirmSenha: String,
-        phone: String
-    ) {
-        if (nome.isEmpty()) {
-            _registerFormState.value = RegisterFormState.ErrorEmpty.ErrorNameEmpty("dfghjklç")
-        }
-        if (email.isEmpty()) {
-            _registerFormState.value = RegisterFormState.ErrorEmpty.ErrorEmailEmpty("dfghjklç")
-        }
-        if (senha.isEmpty()) {
-            _registerFormState.value = RegisterFormState.ErrorEmpty.ErrorPasswordEmpty("dfghjklç")
-        }
-        if (confirmSenha.isEmpty()) {
-            _registerFormState.value =
-                RegisterFormState.ErrorEmpty.ErrorConfirmPasswordEmpty("dfghjklç")
-        }
-        if (phone.isEmpty()) {
-            _registerFormState.value = RegisterFormState.ErrorEmpty.ErrorPhoneEmpty("dfghjklç")
-        }
+    fun saveRegisterDataUser() {
+
     }
 }

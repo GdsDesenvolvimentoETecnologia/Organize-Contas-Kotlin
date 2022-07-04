@@ -5,11 +5,10 @@ import android.util.Patterns
 object FormValidation {
     // A placeholder username validation check
     fun isUserNameValid(username: String): Boolean {
-        return if (username.contains('@')) {
-            Patterns.EMAIL_ADDRESS.matcher(username).matches()
-        } else {
-            username.isNotBlank()
+        if (username.contains("@") && username.contains(".com")){
+            return true
         }
+        return false
     }
 
     // A placeholder password validation check
@@ -25,7 +24,7 @@ object FormValidation {
     }
 
     fun isNameValid(nome: String): Boolean {
-        return nome
+        return nome.length > 2
     }
 
 }

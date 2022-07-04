@@ -1,8 +1,8 @@
 package com.gdsdesenvolvimento.organizecontas.data.model
 
 data class UserRegister(
-    val nome : String,
-    val email :String,
-    val password : String,
-    val phone : String
+    var nome : String,
+    var email :String,
+    var password : String,
+    var phone : String
 )

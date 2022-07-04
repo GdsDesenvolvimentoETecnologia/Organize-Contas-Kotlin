@@ -7,6 +7,7 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.whenResumed
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
+import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
 import com.gdsdesenvolvimento.organizecontas.databinding.ActivityRegisterBinding
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.RegisterViewModel
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.ViewModelFactory
@@ -21,6 +22,7 @@ import com.gdsdesenvolvimento.organizecontas.utils.state.RegisterFormState
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var viewModel: RegisterViewModel
+    private lateinit var newUser: UserRegister
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -118,9 +120,9 @@ class RegisterActivity : AppCompatActivity() {
                     setError(nome, result.msg)
                 }
                 is RegisterFormState.ErrorEmailNotValid -> {
-                    setError(phone, result.msg)
+                    setError(email, result.msg)
                 }
-                is RegisterFormState.ErrorPasswordInvalid-> {
+                is RegisterFormState.ErrorPasswordInvalid -> {
                     setError(senha, result.msg)
                 }
                 is RegisterFormState.ErrorPasswordNotEquals -> {
@@ -129,12 +131,21 @@ class RegisterActivity : AppCompatActivity() {
                 is RegisterFormState.ErrorPhoneInvalid -> {
                     setError(phone, result.msg)
                 }
-
+                is RegisterFormState.Success -> {
+                    result.data?.let { userRegister ->
+                        newUser.nome = userRegister.nome
+                        newUser.email = userRegister.email
+                        newUser.password = userRegister.password
+                        newUser.phone = userRegister.phone
+                    }
+                    binding.button.isEnabled = true
+                }
             }
         }
         viewModel.formResult.observe(this) { result ->
             when (result) {
                 is FormResult.Success -> {
+                    viewModel.saveRegisterDataUser()
                     dialog(
                         this,
                         "Bem vindo novo integrante",
