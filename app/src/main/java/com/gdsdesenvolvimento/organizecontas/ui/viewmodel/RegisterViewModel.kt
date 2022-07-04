@@ -15,8 +15,15 @@ class RegisterViewModel(private val authRepo: AuthenticatorRepository) : ViewMod
     private var _registerFormState = MutableLiveData<RegisterFormState>()
     val registerFormState: LiveData<RegisterFormState> get() = _registerFormState
 
+    private var _isDataValid = MutableLiveData<Boolean>()
+    val isDataValid: LiveData<Boolean> get() = _isDataValid
+
     private var _formResult = MutableLiveData<FormResult>()
     val formResult: LiveData<FormResult> get() = _formResult
+
+    init {
+        _isDataValid.value
+    }
 
     fun registerEmailWithPassword(email: String, password: String) = viewModelScope.launch {
         _formResult.value = FormResult.Loading
@@ -42,16 +49,24 @@ class RegisterViewModel(private val authRepo: AuthenticatorRepository) : ViewMod
         phone: String
     ) {
         verifyStringNotEmpty(nome, email, senha, confirmSenha, phone)
-        if (!FormValidation.isNameValid(nome)){
-            _registerFormState.value = RegisterFormState.ErrorQtdCharactersInvalid("Quantidade de caracteres invalido")
-        }else if (!FormValidation.isUserNameValid(email)){
-            _registerFormState.value = RegisterFormState.ErrorEmailNotValid("Formato de email invalido")
-        }else if (!FormValidation.isPasswordValid(senha)){
-            _registerFormState.value = RegisterFormState.ErrorPasswordInvalid("Formato de senha invalido necessario no minimo 5")
-        }else if (senha != confirmSenha ){
-            _registerFormState.value = RegisterFormState.ErrorPasswordNotEquals("Diferente do campo senha")
-        }else if (!FormValidation.isPhoneValid(phone)){
-            _registerFormState.value = RegisterFormState.ErrorPhoneInvalid("Formato de telefone invalido")
+        if (!FormValidation.isNameValid(nome)) {
+            _registerFormState.value =
+                RegisterFormState.ErrorQtdCharactersInvalid("Quantidade de caracteres invalido")
+        } else if (!FormValidation.isUserNameValid(email)) {
+            _registerFormState.value =
+                RegisterFormState.ErrorEmailNotValid("Formato de email invalido")
+        } else if (!FormValidation.isPasswordValid(senha)) {
+            _registerFormState.value =
+                RegisterFormState.ErrorPasswordInvalid("Formato de senha invalido necessario no minimo 7 letras")
+        } else if (senha != confirmSenha) {
+            _registerFormState.value =
+                RegisterFormState.ErrorPasswordNotEquals("Diferente do campo senha")
+        } else if (!FormValidation.isPhoneValid(phone)) {
+            _registerFormState.value =
+                RegisterFormState.ErrorPhoneInvalid("Formato de telefone invalido")
+        } else {
+            _registerFormState.value = RegisterFormState.Success("Formulario correto")
+
         }
     }
 
