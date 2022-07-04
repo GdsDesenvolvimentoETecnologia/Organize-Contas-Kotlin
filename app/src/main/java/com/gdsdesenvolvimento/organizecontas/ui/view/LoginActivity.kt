@@ -13,15 +13,62 @@ import com.gdsdesenvolvimento.organizecontas.data.repository.AuthenticatorReposi
 import com.gdsdesenvolvimento.organizecontas.databinding.ActivityLoginBinding
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.LoginViewModel
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.ViewModelFactory
+import com.gdsdesenvolvimento.organizecontas.utils.extensions.afterTextChanged
+import com.gdsdesenvolvimento.organizecontas.utils.extensions.setEditError
+import com.gdsdesenvolvimento.organizecontas.utils.state.FormState
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityLoginBinding
-    private lateinit var viewModel : LoginViewModel
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this,ViewModelFactory(DI.getAuthRepository())).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            DI.getViewModelFactory()
+        )[LoginViewModel::class.java]
+        initComponents()
+        observers()
+    }
+
+    private fun initComponents() {
+        binding.emailLogin.afterTextChanged {
+            viewModel.formLoginDataChanged(
+                binding.emailLogin.text.toString(),
+                binding.senhaLogin.text.toString()
+            )
+        }
+        binding.senhaLogin.afterTextChanged {
+            viewModel.formLoginDataChanged(
+                binding.emailLogin.text.toString(),
+                binding.senhaLogin.text.toString()
+            )
+        }
+    }
+
+    private fun observers() {
+        viewModel.loginFormState.observe(this){
+            when(it){
+                is FormState.ErrorEmail.ErrorEmpty->{
+                    setEditError(binding.emailLogin,it.msg)
+                }
+                is FormState.ErrorEmail.ErrorFormatInvalid->{
+                    setEditError(binding.emailLogin,it.msg)
+                }
+                is FormState.ErrorPassword.ErrorEmpty->{
+                    setEditError(binding.senhaLogin,it.msg)
+
+                }
+                is FormState.ErrorPassword.ErrorFormatInvalid->{
+                    setEditError(binding.senhaLogin,it.msg)
+                }
+                is FormState.Success->{
+                    binding.btnLogin.isEnabled = true
+
+                }
+            }
+        }
     }
 }

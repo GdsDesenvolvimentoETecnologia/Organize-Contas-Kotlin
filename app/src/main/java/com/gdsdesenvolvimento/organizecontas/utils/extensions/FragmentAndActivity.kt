@@ -2,6 +2,7 @@ package com.gdsdesenvolvimento.organizecontas.utils.extensions
 
 import android.content.Context
 import android.content.Intent
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +21,13 @@ fun Fragment.nextScreen(activity: AppCompatActivity) {
     }
 }
 
-fun AppCompatActivity.dialog(context: Context, title: String, msg: String, isCancelable : Boolean = true, action: () -> Unit) {
+fun AppCompatActivity.dialog(
+    context: Context,
+    title: String,
+    msg: String,
+    isCancelable: Boolean = true,
+    action: () -> Unit
+) {
     AlertDialog.Builder(context)
         .setTitle(title)
         .setMessage(msg)
@@ -30,6 +37,11 @@ fun AppCompatActivity.dialog(context: Context, title: String, msg: String, isCan
         }
         .show()
 }
-fun AppCompatActivity.message(msg : String){
-    Toast.makeText(this,msg,Toast.LENGTH_LONG).show()
+
+fun AppCompatActivity.message(msg: String) {
+    Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+}
+
+fun AppCompatActivity.setEditError(editText: EditText, msg: String) {
+    editText.error = msg
 }

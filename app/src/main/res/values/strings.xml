@@ -18,4 +18,9 @@
     <string name="cadastre_se">Cadastre-se</string>
     <string name="e_junte_se_ao_app_que_mais_se_importa_com_voce_ze_ruela">E junte-se ao app que mais se importa com voce ze ruela</string>
     <string name="cadastrar">Cadastrar</string>
+    <string name="bem_vindo_novo_integrante">Bem vindo novo integrante</string>
+    <string name="msg_boas_vindas">Seja bem vindo ao melhor app de gestao de financas mane</string>
+    <string name="falha">Falha</string>
+    <string name="nao_foi_possivel_cadastrar">Nao foi possivel cadastrar</string>
+    <string name="carregando">Carregando</string>
 </resources>

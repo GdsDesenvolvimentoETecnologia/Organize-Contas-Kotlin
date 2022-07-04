@@ -6,15 +6,13 @@ import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.whenResumed
+import com.gdsdesenvolvimento.organizecontas.R
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
 import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
 import com.gdsdesenvolvimento.organizecontas.databinding.ActivityRegisterBinding
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.RegisterViewModel
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.ViewModelFactory
-import com.gdsdesenvolvimento.organizecontas.utils.extensions.afterTextChanged
-import com.gdsdesenvolvimento.organizecontas.utils.extensions.dialog
-import com.gdsdesenvolvimento.organizecontas.utils.extensions.message
-import com.gdsdesenvolvimento.organizecontas.utils.extensions.nextScreen
+import com.gdsdesenvolvimento.organizecontas.utils.extensions.*
 import com.gdsdesenvolvimento.organizecontas.utils.results.FormResult
 import com.gdsdesenvolvimento.organizecontas.utils.state.FormState
 import com.gdsdesenvolvimento.organizecontas.utils.state.RegisterFormState
@@ -34,7 +32,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun setupActivity() {
         viewModel = ViewModelProvider(
             this,
-            ViewModelFactory(DI.getAuthRepository())
+            DI.getViewModelFactory()
         )[RegisterViewModel::class.java]
         initComponents()
     }
@@ -102,41 +100,43 @@ class RegisterActivity : AppCompatActivity() {
         viewModel.registerFormState.observe(this) { result ->
             when (result) {
                 is RegisterFormState.ErrorEmpty.ErrorNameEmpty -> {
-                    setError(nome, result.msg)
+                    setEditError(nome, result.msg)
                 }
                 is RegisterFormState.ErrorEmpty.ErrorEmailEmpty -> {
-                    setError(email, result.msg)
+                    setEditError(email, result.msg)
                 }
                 is RegisterFormState.ErrorEmpty.ErrorPasswordEmpty -> {
-                    setError(senha, result.msg)
+                    setEditError(senha, result.msg)
                 }
                 is RegisterFormState.ErrorEmpty.ErrorConfirmPasswordEmpty -> {
-                    setError(confirmSenha, result.msg)
+                    setEditError(confirmSenha, result.msg)
                 }
                 is RegisterFormState.ErrorEmpty.ErrorPhoneEmpty -> {
-                    setError(phone, result.msg)
+                    setEditError(phone, result.msg)
                 }
                 is RegisterFormState.ErrorQtdCharactersInvalid -> {
-                    setError(nome, result.msg)
+                    setEditError(nome, result.msg)
                 }
                 is RegisterFormState.ErrorEmailNotValid -> {
-                    setError(email, result.msg)
+                    setEditError(email, result.msg)
                 }
                 is RegisterFormState.ErrorPasswordInvalid -> {
-                    setError(senha, result.msg)
+                    setEditError(senha, result.msg)
                 }
                 is RegisterFormState.ErrorPasswordNotEquals -> {
-                    setError(confirmSenha, result.msg)
+                    setEditError(confirmSenha, result.msg)
                 }
                 is RegisterFormState.ErrorPhoneInvalid -> {
-                    setError(phone, result.msg)
+                    setEditError(phone, result.msg)
                 }
                 is RegisterFormState.Success -> {
                     result.data?.let { userRegister ->
-                        newUser.nome = userRegister.nome
-                        newUser.email = userRegister.email
-                        newUser.password = userRegister.password
-                        newUser.phone = userRegister.phone
+                        newUser = UserRegister(
+                            nome = userRegister.nome,
+                            email = userRegister.email,
+                            password = userRegister.password,
+                            phone = userRegister.phone
+                        )
                     }
                     binding.button.isEnabled = true
                 }
@@ -145,30 +145,25 @@ class RegisterActivity : AppCompatActivity() {
         viewModel.formResult.observe(this) { result ->
             when (result) {
                 is FormResult.Success -> {
-                    viewModel.saveRegisterDataUser()
                     dialog(
                         this,
-                        "Bem vindo novo integrante",
-                        "Seja bem vindo ao melhor app de gestao de financas mane",
+                        getString(R.string.bem_vindo_novo_integrante),
+                        getString(R.string.msg_boas_vindas),
                         true
                     ) {
                         nextScreen(MainActivity())
                     }
                 }
                 is FormResult.Error -> {
-                    dialog(this, "Falha", "Nao foi possivel cadastrar -> ${result.msg}", true) {
+                    dialog(this, getString(R.string.falha), getString(R.string.nao_foi_possivel_cadastrar), true) {
                         finish()
                     }
                 }
                 is FormResult.Loading -> {
-                    message("Carregando")
+                    message(getString(R.string.carregando))
                 }
             }
 
         }
-    }
-
-    private fun setError(edit: EditText, msg: String) {
-        edit.error = msg
     }
 }
