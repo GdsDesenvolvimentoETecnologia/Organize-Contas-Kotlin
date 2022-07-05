@@ -25,10 +25,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupActivity() {
-        viewModel = ViewModelProvider(
-            this,
-            DI.getViewModelFactory()
-        )[LoginViewModel::class.java]
+        viewModel = DI.getLoginViewModel(this)
         initComponents()
     }
 
@@ -73,25 +70,26 @@ class LoginActivity : AppCompatActivity() {
         }
         viewModel.userResult.observe(this) {
             when (it) {
-                is FormResult.Success -> {
-                    dialog(this, "Logado", "PArabens voce esta logado ", true) {
-                        nextScreen(MainActivity())
-                    }
-                }
-                is FormResult.Error -> {
-                    dialog(
-                        this,
-                        getString(R.string.falha),
-                        getString(R.string.falha_ao_fazer_login),
-                        true
-                    ) {
-                        finish()
-                    }
-                }
-                is FormResult.Loading -> {
-                    message(getString(R.string.carregando))
-                }
+                is FormResult.Success -> loginSuccess()
+                is FormResult.Error -> loginFailure()
+                is FormResult.Loading -> loginLoading()
             }
         }
+    }
+
+    private fun loginSuccess() {
+        dialog(this, "Logado", "Parabens voce esta logado ", true) {
+            nextScreen(MainActivity())
+        }
+    }
+
+    private fun loginFailure() {
+        dialog(this, getString(R.string.falha), getString(R.string.falha_ao_fazer_login), true) {
+            finish()
+        }
+    }
+
+    private fun loginLoading() {
+        message(getString(R.string.carregando))
     }
 }

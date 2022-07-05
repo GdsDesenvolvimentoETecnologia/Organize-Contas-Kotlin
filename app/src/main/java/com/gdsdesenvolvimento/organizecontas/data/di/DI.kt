@@ -1,6 +1,9 @@
 package com.gdsdesenvolvimento.organizecontas.data.di
 
 import android.view.View
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.gdsdesenvolvimento.organizecontas.data.dataSource.auth.LoginDS
 import com.gdsdesenvolvimento.organizecontas.data.dataSource.auth.RegisterDS
 import com.gdsdesenvolvimento.organizecontas.data.dataSource.auth.UserLoggedDS
@@ -8,6 +11,8 @@ import com.gdsdesenvolvimento.organizecontas.data.dataSource.instances.FBInstanc
 import com.gdsdesenvolvimento.organizecontas.data.model.User
 import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
 import com.gdsdesenvolvimento.organizecontas.data.repository.AuthenticatorRepository
+import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.LoginViewModel
+import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.RegisterViewModel
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.ViewModelFactory
 
 object DI {
@@ -31,6 +36,14 @@ object DI {
         return AuthenticatorRepository(
             LoginDS(authInstance), RegisterDS(authInstance), UserLoggedDS(authInstance)
         )
+    }
+
+    fun getRegisterViewModel(owner: ViewModelStoreOwner): RegisterViewModel {
+        return ViewModelProvider(owner, getViewModelFactory())[RegisterViewModel::class.java]
+    }
+
+    fun getLoginViewModel(owner: ViewModelStoreOwner): LoginViewModel {
+        return ViewModelProvider(owner, getViewModelFactory())[LoginViewModel::class.java]
     }
 
 }

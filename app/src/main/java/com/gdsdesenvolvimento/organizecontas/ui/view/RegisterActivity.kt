@@ -30,10 +30,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setupActivity() {
-        viewModel = ViewModelProvider(
-            this,
-            DI.getViewModelFactory()
-        )[RegisterViewModel::class.java]
+        viewModel = DI.getRegisterViewModel(this)
         initComponents()
     }
 

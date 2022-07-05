@@ -7,6 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.gdsdesenvolvimento.organizecontas.data.di.DI
 
 const val Ok = "OK"
 fun AppCompatActivity.nextScreen(activity: AppCompatActivity) {
