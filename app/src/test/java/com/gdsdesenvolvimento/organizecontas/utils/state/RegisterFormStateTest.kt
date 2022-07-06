@@ -26,5 +26,12 @@ class RegisterFormStateTest {
         assertEquals(true, a)
     }
 
+    @Test
+    fun `Quando o estado for ErrorEmailNotValid a mensagem nao pode ser alterada`() {
+        val state = RegisterFormState.ErrorEmailNotValid("Formato de Email nao valido")
+        val msg = state.msg
+        assertEquals("Formato de Email nao valido", msg)
+    }
+
 
 }

@@ -46,4 +46,8 @@ object DI {
         return ViewModelProvider(owner, getViewModelFactory())[LoginViewModel::class.java]
     }
 
+    fun isUserLogged(): Boolean {
+        return FBInstance.getAuthenticator().currentUser != null
+    }
+
 }

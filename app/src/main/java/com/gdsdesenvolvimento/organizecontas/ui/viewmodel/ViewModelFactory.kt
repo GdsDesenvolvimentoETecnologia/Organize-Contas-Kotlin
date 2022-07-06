@@ -11,8 +11,12 @@ class ViewModelFactory(private val authenticatorRepository: AuthenticatorReposit
         return when {
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authenticatorRepository) as T
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(authenticatorRepository) as T
-            else -> throw IllegalStateException("Falha ao iniciar o viewmodel")
+            else -> throw IllegalStateException(FALHA_VIEWMODEL)
         }
+    }
+
+    companion object {
+        const val FALHA_VIEWMODEL = "Falha ao iniciar o viewmodel"
     }
 
 }

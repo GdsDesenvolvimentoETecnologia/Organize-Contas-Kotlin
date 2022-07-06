@@ -7,6 +7,9 @@ import com.gdsdesenvolvimento.organizecontas.utils.helper.FormValidation
 import com.gdsdesenvolvimento.organizecontas.utils.state.RegisterFormState
 import com.gdsdesenvolvimento.organizecontas.utils.results.FormResult
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(private val authRepo: AuthenticatorRepository) : ViewModel() {
@@ -27,7 +30,13 @@ class RegisterViewModel(private val authRepo: AuthenticatorRepository) : ViewMod
             .addOnFailureListener {
                 val msg = try {
                     throw it
-                } catch (e: FirebaseException) {
+                } catch (e: FirebaseAuthWeakPasswordException) {
+                    e.message
+                }catch (e : FirebaseAuthInvalidCredentialsException){
+                    e.message
+                }catch (e : FirebaseAuthUserCollisionException){
+                    e.message + "Usuario ja existe"
+                }catch (e : FirebaseException){
                     e.message
                 }
                 _formResult.value = FormResult.Error(msg)

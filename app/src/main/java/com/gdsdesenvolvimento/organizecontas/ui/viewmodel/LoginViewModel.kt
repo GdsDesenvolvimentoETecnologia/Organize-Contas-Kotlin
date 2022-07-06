@@ -11,6 +11,9 @@ import com.gdsdesenvolvimento.organizecontas.utils.helper.FormValidation
 import com.gdsdesenvolvimento.organizecontas.utils.state.FormState
 import com.gdsdesenvolvimento.organizecontas.utils.results.FormResult
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val authRepo: AuthenticatorRepository) : ViewModel() {
@@ -45,7 +48,11 @@ class LoginViewModel(private val authRepo: AuthenticatorRepository) : ViewModel(
             .addOnFailureListener {
                 val msg = try {
                     throw it
-                } catch (e: FirebaseException) {
+                } catch (e: FirebaseAuthInvalidCredentialsException ) {
+                   "Senha incorreta " + e.message
+                }catch (e : FirebaseAuthInvalidUserException){
+                    "nao cadastrado" + e.message
+                }catch (e : FirebaseAuthException){
                     e.message
                 }
                 _userResult.value = FormResult.Error(msg)
