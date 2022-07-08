@@ -3,6 +3,7 @@ package com.gdsdesenvolvimento.organizecontas.utils.extensions
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 
 fun View.show(){
@@ -10,8 +11,20 @@ fun View.show(){
 }
 
 fun View.hide(){
-    visibility = View.VISIBLE
+    visibility = View.INVISIBLE
 }
+fun View.gone(){
+    visibility = View.GONE
+}
+fun Button.enabled(){
+    isEnabled = true
+}
+
+fun Button.disable(){
+    isEnabled = false
+}
+
+
 fun View.showAll(vararg views: View){
     views.forEach {view ->
         view.visibility = View.VISIBLE
@@ -20,7 +33,7 @@ fun View.showAll(vararg views: View){
 
 fun View.hideAll(vararg views: View){
     views.forEach {view ->
-        view.visibility = View.VISIBLE
+        view.visibility = View.INVISIBLE
     }
 }
 
@@ -56,3 +69,4 @@ fun EditText.extractDouble(): Double {
         value.toDouble()
     }
 }
+

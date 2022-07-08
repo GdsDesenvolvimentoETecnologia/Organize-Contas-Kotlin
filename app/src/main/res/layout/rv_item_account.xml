@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
+    android:id="@+id/cardView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -40,7 +41,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:inputType="numberDecimal"
+            android:inputType="number|numberSigned|numberDecimal"
             android:hint="Digite o valo que tem em conta"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
+            android:checked="false"
             android:text="Possui limite"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/valorConta" />
@@ -67,9 +69,22 @@
             android:hint="Digite o valo de limite extra"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
-            android:inputType="numberDecimal"
+            android:inputType="number|numberSigned|numberDecimal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ckLimite" />
+
+        <Button
+            android:id="@+id/btnSalvarForm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:text="Salvar"
+            android:enabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/valorLimite" />
 
         <View
             android:layout_width="match_parent"
@@ -81,7 +96,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/valorLimite" />
+            app:layout_constraintTop_toBottomOf="@+id/btnSalvarForm" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

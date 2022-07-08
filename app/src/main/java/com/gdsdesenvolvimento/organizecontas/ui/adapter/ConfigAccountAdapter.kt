@@ -1,15 +1,15 @@
 package com.gdsdesenvolvimento.organizecontas.ui.adapter
 
-import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
-import com.gdsdesenvolvimento.organizecontas.R
+import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountConfig
 import com.gdsdesenvolvimento.organizecontas.databinding.RvItemAccountBinding
-import com.gdsdesenvolvimento.organizecontas.utils.extensions.afterTextChanged
-import com.gdsdesenvolvimento.organizecontas.utils.extensions.extractDouble
+import com.gdsdesenvolvimento.organizecontas.utils.extensions.*
 
 class ConfigAccountAdapter(
     private val numbersForms: Int
@@ -27,63 +27,113 @@ class ConfigAccountAdapter(
 
     override fun getItemCount(): Int = numbersForms
     override fun onBindViewHolder(holder: ConfigAccountViewHolder, position: Int) {
-        val nomeBanco = holder.binding.nomeBanco
-        val ckLimite = holder.binding.ckLimite
-        val valorConta = holder.binding.valorConta
-        val valorLimite = holder.binding.valorLimite
-        validandoFormulario(holder, nomeBanco, ckLimite, valorConta, valorLimite)
+        holder.apply {
+            bind(
+                this,
+                this.binding.nomeBanco,
+                this.binding.ckLimite,
+                this.binding.valorConta,
+                this.binding.valorLimite,
+                this.binding.btnSalvarForm
+            )
+
+        }
     }
 
-    private fun validandoFormulario(
+    private fun bind(
         holder: ConfigAccountViewHolder,
         nomeBanco: EditText,
         ckLimite: CheckBox,
         valorConta: EditText,
-        valorLimite: EditText
+        valorLimite: EditText,
+        btnSalvarForm: Button
     ) {
-        nomeBanco.afterTextChanged { validaNome(holder, it) }
-        valorConta.afterTextChanged { validaValorDaConta(holder, valorConta.extractDouble()) }
-        if (validaCk(holder, ckLimite)) {
-            valorLimite.afterTextChanged { validaValorLimite(holder, valorLimite.extractDouble()) }
+        nomeBanco.afterTextChanged { safeName ->
+            validaNome(holder, safeName)
         }
+
+        ckLimite.setOnClickListener {
+            setContaLimit(holder, valorLimite)
+        }
+
+        valorConta.afterTextChanged { safeValorConta ->
+            verifyNumberValue(
+                holder,
+                valorConta,
+                safeValorConta
+            )
+        }
+
+        valorLimite.afterTextChanged { safeValorLimite ->
+            verifyNumberValue(
+                holder,
+                valorLimite,
+                safeValorLimite
+            )
+        }
+
+        btnSalvarForm.setOnClickListener {
+            val formAccount = ItemAccountConfig(
+                nomeBanco.text.toString(),
+                valorConta.extractDouble(),
+                ckLimite.isChecked,
+                valorLimite.extractDouble()
+            )
+            holder.binding.cardView.gone()
+        }
+
     }
 
     private fun validaNome(holder: ConfigAccountViewHolder, nomeBanco: String) {
         if (nomeBanco.isEmpty()) {
             holder.binding.nomeBanco.error = "Campo em branco"
+            holder.binding.btnSalvarForm.disable()
         } else if (nomeBanco.length < 2) {
             holder.binding.nomeBanco.error = "Invalido"
+            holder.binding.btnSalvarForm.disable()
+        }
+
+    }
+
+    private fun setContaLimit(holder: ConfigAccountViewHolder, valorLimite: EditText) {
+        if (holder.binding.ckLimite.isChecked) {
+            valorLimite.show()
+            holder.binding.btnSalvarForm.disable()
+        } else {
+            valorLimite.hide()
+            holder.binding.btnSalvarForm.enabled()
         }
     }
 
-    private fun validaValorDaConta(holder: ConfigAccountViewHolder, valorConta: Double) {
-        defineTextColor(valorConta, holder.binding.valorConta)
-    }
-
-    private fun validaCk(holder: ConfigAccountViewHolder, ckLimite: CheckBox): Boolean {
-        return true
-    }
-
-    private fun validaValorLimite(
+    private fun verifyNumberValue(
         holder: ConfigAccountViewHolder,
-        valorLimite: Double
+        valorConta: EditText,
+        value: String
     ) {
-        defineTextColor(valorLimite, holder.binding.valorConta)
-    }
-
-    @SuppressLint("ResourceAsColor")
-    fun defineTextColor(valor: Double, editText: EditText) {
         when {
-            valor == 0.0 -> {
-                editText.setTextColor(R.color.black)
+            value.isEmpty() -> {
+                valorConta.error = "Campo necessario"
+                holder.binding.btnSalvarForm.disable()
             }
-            valor <= 0.0 -> {
-                editText.setTextColor(R.color.my_green)
+            value == "-" -> {
+                return
             }
-            valor >= 0.0 -> {
-                editText.setTextColor(R.color.my_red)
+            value.toDouble() == 0.00 -> {
+                setTextColor(valorConta, Color.BLACK)
+                holder.binding.btnSalvarForm.enabled()
+            }
+            value.toDouble() < 0.00 -> {
+                setTextColor(valorConta, Color.RED)
+                holder.binding.btnSalvarForm.enabled()
+            }
+            value.toDouble() > 0.00 -> {
+                setTextColor(valorConta, Color.GREEN)
+                holder.binding.btnSalvarForm.enabled()
             }
         }
     }
 
+    private fun setTextColor(editText: EditText, color: Int) {
+        editText.setTextColor(color)
+    }
 }
