@@ -11,9 +11,8 @@ import com.gdsdesenvolvimento.organizecontas.data.dataSource.instances.FBInstanc
 import com.gdsdesenvolvimento.organizecontas.data.model.User
 import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
 import com.gdsdesenvolvimento.organizecontas.data.repository.AuthenticatorRepository
-import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.LoginViewModel
-import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.RegisterViewModel
-import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.ViewModelFactory
+import com.gdsdesenvolvimento.organizecontas.ui.view.ConfigurationAppActivity
+import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.*
 
 object DI {
     private val authInstance by lazy { FBInstance.getAuthenticator() }
@@ -38,16 +37,28 @@ object DI {
         )
     }
 
-    fun getRegisterViewModel(owner: ViewModelStoreOwner): RegisterViewModel {
-        return ViewModelProvider(owner, getViewModelFactory())[RegisterViewModel::class.java]
-    }
-
-    fun getLoginViewModel(owner: ViewModelStoreOwner): LoginViewModel {
-        return ViewModelProvider(owner, getViewModelFactory())[LoginViewModel::class.java]
-    }
-
     fun isUserLogged(): Boolean {
         return FBInstance.getAuthenticator().currentUser != null
     }
+    object MyViewModels{
+        fun getRegisterViewModel(owner: ViewModelStoreOwner): RegisterViewModel {
+            return ViewModelProvider(owner, getViewModelFactory())[RegisterViewModel::class.java]
+        }
 
+        fun getLoginViewModel(owner: ViewModelStoreOwner): LoginViewModel {
+            return ViewModelProvider(owner, getViewModelFactory())[LoginViewModel::class.java]
+        }
+
+        fun getConfigViewModel(owner: ViewModelStoreOwner): ConfigurationAppViewModel {
+            return ViewModelProvider(owner, getViewModelFactory())[ConfigurationAppViewModel::class.java]
+        }
+
+        fun getConfigAccountViewModel(owner: ViewModelStoreOwner): ConfigAccountViewModel {
+            return ViewModelProvider(owner, getViewModelFactory())[ConfigAccountViewModel::class.java]
+        }
+
+        fun getConfigCreditCardViewModel(owner: ViewModelStoreOwner): ConfigCreditCardViewModel {
+            return ViewModelProvider(owner, getViewModelFactory())[ConfigCreditCardViewModel::class.java]
+        }
+    }
 }

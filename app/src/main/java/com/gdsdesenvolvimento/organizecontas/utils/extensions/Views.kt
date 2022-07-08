@@ -34,3 +34,25 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     })
 }
+
+fun EditText.extractInt(): Int {
+    val value = this.text.toString()
+    return if (value.isEmpty()){
+        0
+    }else{
+        value.toInt()
+    }
+}
+
+fun EditText.extractString(): String {
+    return text.toString()
+}
+
+fun EditText.extractDouble(): Double {
+    val value = this.text.toString()
+    return if (value.isEmpty()){
+        0.0
+    }else{
+        value.toDouble()
+    }
+}

@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setupActivity() {
-        viewModel = DI.getRegisterViewModel(this)
+        viewModel = DI.MyViewModels.getRegisterViewModel(this)
         initComponents()
     }
 
@@ -146,7 +146,7 @@ class RegisterActivity : AppCompatActivity() {
                         getString(R.string.msg_boas_vindas),
                         true
                     ) {
-                        nextScreen(MainActivity())
+                        nextScreen(ConfigurationAppActivity())
                     }
                 }
                 is FormResult.Error -> {

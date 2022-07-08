@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupActivity() {
-        viewModel = DI.getLoginViewModel(this)
+        viewModel = DI.MyViewModels.getLoginViewModel(this)
         initComponents()
     }
 

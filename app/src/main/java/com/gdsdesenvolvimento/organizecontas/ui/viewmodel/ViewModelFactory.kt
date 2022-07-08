@@ -11,6 +11,9 @@ class ViewModelFactory(private val authenticatorRepository: AuthenticatorReposit
         return when {
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(authenticatorRepository) as T
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(authenticatorRepository) as T
+            modelClass.isAssignableFrom(ConfigurationAppViewModel::class.java) -> ConfigurationAppViewModel() as T
+            modelClass.isAssignableFrom(ConfigAccountViewModel::class.java) -> ConfigAccountViewModel() as T
+            modelClass.isAssignableFrom(ConfigCreditCardViewModel::class.java) -> ConfigCreditCardViewModel() as T
             else -> throw IllegalStateException(FALHA_VIEWMODEL)
         }
     }

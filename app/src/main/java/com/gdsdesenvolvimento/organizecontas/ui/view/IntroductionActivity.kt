@@ -25,7 +25,7 @@ class IntroductionActivity : IntroActivity() {
 
     private fun verifyUserConnected() {
         if (DI.isUserLogged()){
-            nextScreen(MainActivity())
+            nextScreen(ConfigAccountActivity())
         }
     }
 
