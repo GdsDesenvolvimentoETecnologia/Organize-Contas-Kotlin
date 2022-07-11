@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.gdsdesenvolvimento.organizecontas.R
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
+import com.gdsdesenvolvimento.organizecontas.data.di.ViewModelInjection
 import com.gdsdesenvolvimento.organizecontas.databinding.ActivityConfigurationAppBinding
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.ConfigurationAppViewModel
 import com.gdsdesenvolvimento.organizecontas.utils.Constants
@@ -18,7 +19,7 @@ class ConfigurationAppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityConfigurationAppBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = DI.MyViewModels.getConfigViewModel(this)
+        viewModel = ViewModelInjection.getConfigViewModel(this)
         initComponents()
         observers()
     }

@@ -1,5 +1,6 @@
 package com.gdsdesenvolvimento.organizecontas.data.dataSource.realtime
 
+import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountConfig
 import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
@@ -9,5 +10,17 @@ interface DatabaseActions {
         suspend fun saveDataRegister(user: UserRegister): Task<Void>
         suspend fun getDataUser(user: UserRegister): Task<DataSnapshot>
         suspend fun deleteAllDataUser(user: UserRegister): Task<Void>
+    }
+
+    interface Accounts {
+        suspend fun saveConfigAccount(
+            number: Int,
+            idUserLogged: String,
+            item: ItemAccountConfig
+        ): Task<Void>
+    }
+
+    interface CreditCard {
+
     }
 }

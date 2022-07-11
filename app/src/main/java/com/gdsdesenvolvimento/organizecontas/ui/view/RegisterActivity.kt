@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.whenResumed
 import com.gdsdesenvolvimento.organizecontas.R
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
+import com.gdsdesenvolvimento.organizecontas.data.di.ViewModelInjection
 import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
 import com.gdsdesenvolvimento.organizecontas.databinding.ActivityRegisterBinding
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.RegisterViewModel
@@ -31,7 +32,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setupActivity() {
-        viewModel = DI.MyViewModels.getRegisterViewModel(this)
+        viewModel = ViewModelInjection.getRegisterViewModel(this)
         initComponents()
     }
 

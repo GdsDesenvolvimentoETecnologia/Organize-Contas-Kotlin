@@ -6,13 +6,29 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.RecyclerView
+import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountConfig
+import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
+import com.gdsdesenvolvimento.organizecontas.data.repository.RealtimeRepository
 import com.gdsdesenvolvimento.organizecontas.databinding.RvItemAccountBinding
 import com.gdsdesenvolvimento.organizecontas.utils.extensions.*
+import com.gdsdesenvolvimento.organizecontas.utils.results.FinishItemResult
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import javax.security.auth.callback.Callback
 
 class ConfigAccountAdapter(
-    var numbersForms: Int
+    private var numbersForms: Int,
+    private val idUserLogged: String,
+    private val realtimeRepository: RealtimeRepository,
+    private val callback: FinishItemResult
 ) : RecyclerView.Adapter<ConfigAccountAdapter.ConfigAccountViewHolder>() {
+
+    private lateinit var item: ItemAccountConfig
+
     inner class ConfigAccountViewHolder(val binding: RvItemAccountBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -29,6 +45,7 @@ class ConfigAccountAdapter(
         holder.apply {
             bind(
                 this,
+                position,
                 this.binding.nomeBanco,
                 this.binding.ckLimite,
                 this.binding.valorConta,
@@ -36,10 +53,14 @@ class ConfigAccountAdapter(
                 this.binding.btnSalvarForm
             )
         }
+        if (numbersForms == 0){
+            callback.finish()
+        }
     }
 
     private fun bind(
         holder: ConfigAccountViewHolder,
+        position: Int,
         nomeBanco: EditText,
         ckLimite: CheckBox,
         valorConta: EditText,
@@ -70,10 +91,43 @@ class ConfigAccountAdapter(
             )
         }
         btnSalvarForm.setOnClickListener {
-            if (numbersForms != 0) {
-                numbersForms -= 1
-                notifyItemRemoved(0)
+            if (numbersForms == 1){
+                saveDataFormAccount(nomeBanco, valorConta, ckLimite, valorLimite, position)
+                callback.finish()
+            }else{
+                saveDataFormAccount(nomeBanco, valorConta, ckLimite, valorLimite, position)
             }
+        }
+
+    }
+
+    private fun saveDataFormAccount(
+        nomeBanco: EditText,
+        valorConta: EditText,
+        ckLimite: CheckBox,
+        valorLimite: EditText,
+        position: Int
+    ) {
+        item = ItemAccountConfig(
+            nomeBanco.text.toString(),
+            valorConta.extractDouble(),
+            ckLimite.isChecked,
+            valorLimite.extractDouble()
+        )
+        saveFirebase(position)
+        numbersForms -= 1
+        notifyItemRemoved(0)
+    }
+
+    private fun saveFirebase(position: Int) {
+        GlobalScope.launch {
+            realtimeRepository.saveAccountsConfig(position, idUserLogged, item)
+                .addOnSuccessListener {
+                    val a = 1
+                }
+                .addOnFailureListener {
+                    val a = 1
+                }
         }
     }
 

@@ -5,4 +5,5 @@ object DBConstants {
     const val DADOS_PESSOAIS = "DadosPessoais"
     const val DADOS_CONTAS = "DadosContas"
     const val DADOS_CARTOES = "DadosCartoes"
+    const val ACCOUNT_CONFIG = "ConfiguracaoDeContas"
 }

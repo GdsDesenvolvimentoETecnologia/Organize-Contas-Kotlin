@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.gdsdesenvolvimento.organizecontas.R
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
+import com.gdsdesenvolvimento.organizecontas.data.di.ViewModelInjection
 import com.gdsdesenvolvimento.organizecontas.data.model.User
 import com.gdsdesenvolvimento.organizecontas.databinding.ActivityLoginBinding
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.LoginViewModel
@@ -25,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupActivity() {
-        viewModel = DI.MyViewModels.getLoginViewModel(this)
+        viewModel = ViewModelInjection.getLoginViewModel(this)
         initComponents()
     }
 
