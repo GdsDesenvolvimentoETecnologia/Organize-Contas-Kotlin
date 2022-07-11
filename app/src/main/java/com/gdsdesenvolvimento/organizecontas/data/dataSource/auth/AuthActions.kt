@@ -16,5 +16,6 @@ interface AuthActions {
 
     interface UserLogged {
         suspend fun logout()
+        suspend fun userKey() : String
     }
 }

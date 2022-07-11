@@ -1,14 +1,15 @@
 package com.gdsdesenvolvimento.organizecontas.ui.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gdsdesenvolvimento.organizecontas.R
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
 import com.gdsdesenvolvimento.organizecontas.databinding.ActivityConfigAccountBinding
 import com.gdsdesenvolvimento.organizecontas.ui.adapter.ConfigAccountAdapter
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.ConfigAccountViewModel
 import com.gdsdesenvolvimento.organizecontas.utils.Constants
+import com.gdsdesenvolvimento.organizecontas.utils.extensions.nextScreen
 import com.gdsdesenvolvimento.organizecontas.utils.preferences.OrganizePreferences
 
 class ConfigAccountActivity : AppCompatActivity() {
@@ -22,6 +23,8 @@ class ConfigAccountActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = DI.MyViewModels.getConfigAccountViewModel(this)
         initComponents()
+        Log.d("caminho", "ConfigAccountActivity")
+
     }
 
     private fun initComponents() {
@@ -33,8 +36,19 @@ class ConfigAccountActivity : AppCompatActivity() {
     }
 
     private fun setupAdapter() {
+        configAdapter()
+        if (accountAdapter.numbersForms == null){
+            nextScreen(ConfigCreditCardActivity())
+        }
+    }
+
+    private fun configAdapter() {
         preferences = OrganizePreferences(this)
         val numberAccounts = preferences.getIntPref(Constants.CONTA)
         accountAdapter = ConfigAccountAdapter(numberAccounts)
+    }
+
+    companion object{
+        const val ZERO = 0
     }
 }

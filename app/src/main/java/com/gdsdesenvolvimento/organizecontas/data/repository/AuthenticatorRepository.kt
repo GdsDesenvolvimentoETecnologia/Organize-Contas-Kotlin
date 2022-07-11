@@ -16,4 +16,5 @@ class AuthenticatorRepository(
     suspend fun registerEmailWithPass(email: String,password: String) = registerDS.registerUserEmailWithPassword(email, password)
     //UserLogged
     suspend fun logout() = userDS.logout()
+    suspend fun userKey() = userDS.userKey()
 }

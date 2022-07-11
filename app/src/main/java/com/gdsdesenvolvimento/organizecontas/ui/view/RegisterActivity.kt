@@ -14,6 +14,7 @@ import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.RegisterViewModel
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.ViewModelFactory
 import com.gdsdesenvolvimento.organizecontas.utils.extensions.*
 import com.gdsdesenvolvimento.organizecontas.utils.results.FormResult
+import com.gdsdesenvolvimento.organizecontas.utils.state.DataUserState
 import com.gdsdesenvolvimento.organizecontas.utils.state.FormState
 import com.gdsdesenvolvimento.organizecontas.utils.state.RegisterFormState
 
@@ -140,20 +141,13 @@ class RegisterActivity : AppCompatActivity() {
         viewModel.formResult.observe(this) { result ->
             when (result) {
                 is FormResult.Success -> {
-                    dialog(
-                        this,
-                        getString(R.string.bem_vindo_novo_integrante),
-                        getString(R.string.msg_boas_vindas),
-                        true
-                    ) {
-                        nextScreen(ConfigurationAppActivity())
-                    }
+                    viewModel.saveDataUserRegister(newUser)
                 }
                 is FormResult.Error -> {
                     dialog(
                         this,
                         getString(R.string.falha),
-                        getString(R.string.nao_foi_possivel_cadastrar),
+                        "Formulario com erro ou campo em branco",
                         true
                     ) {
                         finish()
@@ -163,7 +157,33 @@ class RegisterActivity : AppCompatActivity() {
                     message(getString(R.string.carregando))
                 }
             }
-
+        }
+        viewModel.saveData.observe(this) { resultSaveData ->
+            when (resultSaveData) {
+                is DataUserState.Success -> {
+                    dialog(
+                        this,
+                        getString(R.string.bem_vindo_novo_integrante),
+                        getString(R.string.msg_boas_vindas),
+                        true
+                    ) {
+                        nextScreen(ConfigurationAppActivity())
+                    }
+                }
+                is DataUserState.Error -> {
+                    dialog(
+                        this,
+                        getString(R.string.falha),
+                        "Falha ao salvar os dados ${resultSaveData.msg}",
+                        true
+                    ) {
+                        finish()
+                    }
+                }
+                is DataUserState.Loading -> {
+                    message("Continua carregando agora pra salvar")
+                }
+            }
         }
     }
 }

@@ -45,18 +45,17 @@ class LoginViewModel(private val authRepo: AuthenticatorRepository) : ViewModel(
             .addOnSuccessListener { successResult ->
                 _userResult.value = FormResult.Success(successResult)
             }
-            .addOnFailureListener {
+            .addOnFailureListener { exception ->
                 val msg = try {
-                    throw it
-                } catch (e: FirebaseAuthInvalidCredentialsException ) {
-                   "Senha incorreta " + e.message
-                }catch (e : FirebaseAuthInvalidUserException){
+                    throw exception
+                } catch (e: FirebaseAuthInvalidCredentialsException) {
+                    "Senha incorreta " + e.message
+                } catch (e: FirebaseAuthInvalidUserException) {
                     "nao cadastrado" + e.message
-                }catch (e : FirebaseAuthException){
+                } catch (e: FirebaseAuthException) {
                     e.message
                 }
                 _userResult.value = FormResult.Error(msg)
             }
     }
-
 }
