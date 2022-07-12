@@ -1,33 +1,33 @@
 package com.gdsdesenvolvimento.organizecontas.ui.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.RecyclerView
-import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountConfig
-import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
+import com.gdsdesenvolvimento.organizecontas.data.di.DI
+import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountForm
 import com.gdsdesenvolvimento.organizecontas.data.repository.RealtimeRepository
 import com.gdsdesenvolvimento.organizecontas.databinding.RvItemAccountBinding
 import com.gdsdesenvolvimento.organizecontas.utils.extensions.*
+import com.gdsdesenvolvimento.organizecontas.utils.helper.ValidateAdapterForm.ckIsChecked
+import com.gdsdesenvolvimento.organizecontas.utils.helper.ValidateAdapterForm.validateBankName
+import com.gdsdesenvolvimento.organizecontas.utils.helper.ValidateAdapterForm.verifyNumberValue
 import com.gdsdesenvolvimento.organizecontas.utils.results.FinishItemResult
+import com.gdsdesenvolvimento.organizecontas.utils.results.SaveFormResult
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import javax.security.auth.callback.Callback
 
-class ConfigAccountAdapter(
+class ConfigAccountAdapter constructor(
     private var numbersForms: Int,
     private val idUserLogged: String,
     private val realtimeRepository: RealtimeRepository,
-    private val callback: FinishItemResult
+    private val callback: FinishItemResult,
+    private val resultSaveForm : SaveFormResult
 ) : RecyclerView.Adapter<ConfigAccountAdapter.ConfigAccountViewHolder>() {
 
-    private lateinit var item: ItemAccountConfig
+    private lateinit var item: ItemAccountForm
 
     inner class ConfigAccountViewHolder(val binding: RvItemAccountBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -44,7 +44,6 @@ class ConfigAccountAdapter(
     override fun onBindViewHolder(holder: ConfigAccountViewHolder, position: Int) {
         holder.apply {
             bind(
-                this,
                 position,
                 this.binding.nomeBanco,
                 this.binding.ckLimite,
@@ -53,13 +52,9 @@ class ConfigAccountAdapter(
                 this.binding.btnSalvarForm
             )
         }
-        if (numbersForms == 0){
-            callback.finish()
-        }
     }
 
     private fun bind(
-        holder: ConfigAccountViewHolder,
         position: Int,
         nomeBanco: EditText,
         ckLimite: CheckBox,
@@ -68,52 +63,50 @@ class ConfigAccountAdapter(
         btnSalvarForm: Button
     ) {
         nomeBanco.afterTextChanged { safeName ->
-            validaNome(holder, safeName)
+            validateBankName(btnSalvarForm, nomeBanco, safeName)
         }
-
         ckLimite.setOnClickListener {
-            setContaLimit(holder, valorLimite)
+            ckIsChecked(ckLimite, btnSalvarForm, valorLimite)
         }
-
         valorConta.afterTextChanged { safeValorConta ->
-            verifyNumberValue(
-                holder,
-                valorConta,
-                safeValorConta
-            )
+            verifyNumberValue(btnSalvarForm, valorConta, safeValorConta)
         }
-
         valorLimite.afterTextChanged { safeValorLimite ->
-            verifyNumberValue(
-                holder,
-                valorLimite,
-                safeValorLimite
-            )
+            verifyNumberValue(btnSalvarForm, valorLimite, safeValorLimite)
         }
         btnSalvarForm.setOnClickListener {
-            if (numbersForms == 1){
-                saveDataFormAccount(nomeBanco, valorConta, ckLimite, valorLimite, position)
-                callback.finish()
-            }else{
-                saveDataFormAccount(nomeBanco, valorConta, ckLimite, valorLimite, position)
-            }
+            verifyQtdForms(nomeBanco, valorConta, ckLimite, valorLimite, position)
         }
 
     }
 
-    private fun saveDataFormAccount(
+    private fun verifyQtdForms(
         nomeBanco: EditText,
         valorConta: EditText,
         ckLimite: CheckBox,
         valorLimite: EditText,
         position: Int
     ) {
-        item = ItemAccountConfig(
-            nomeBanco.text.toString(),
+        saveDataForm(
+            nomeBanco.extractString(),
             valorConta.extractDouble(),
             ckLimite.isChecked,
-            valorLimite.extractDouble()
+            valorLimite.extractDouble(),
+            position
         )
+        if (numbersForms == 0) {
+            callback.finish()
+        }
+    }
+
+    private fun saveDataForm(
+        nomeBanco: String,
+        valorConta: Double,
+        ckLimite: Boolean,
+        valorLimite: Double,
+        position: Int
+    ) {
+        item = DI.getFormAccount(nomeBanco, valorConta, ckLimite, valorLimite)
         saveFirebase(position)
         numbersForms -= 1
         notifyItemRemoved(0)
@@ -123,69 +116,11 @@ class ConfigAccountAdapter(
         GlobalScope.launch {
             realtimeRepository.saveAccountsConfig(position, idUserLogged, item)
                 .addOnSuccessListener {
-                    val a = 1
+                    resultSaveForm.success()
                 }
                 .addOnFailureListener {
-                    val a = 1
+                    resultSaveForm.failed(it.message!!)
                 }
         }
-    }
-
-    private fun validaNome(holder: ConfigAccountViewHolder, nomeBanco: String) {
-        if (nomeBanco.isEmpty()) {
-            holder.binding.nomeBanco.error = CAMPO_EM_BRANCO
-            holder.binding.btnSalvarForm.disable()
-        } else if (nomeBanco.length < 2) {
-            holder.binding.nomeBanco.error = INVALIDO
-            holder.binding.btnSalvarForm.disable()
-        }
-
-    }
-
-    private fun setContaLimit(holder: ConfigAccountViewHolder, valorLimite: EditText) {
-        if (holder.binding.ckLimite.isChecked) {
-            valorLimite.show()
-            holder.binding.btnSalvarForm.disable()
-        } else {
-            valorLimite.hide()
-            holder.binding.btnSalvarForm.enabled()
-        }
-    }
-
-    private fun verifyNumberValue(
-        holder: ConfigAccountViewHolder,
-        valorConta: EditText,
-        value: String
-    ) {
-        when {
-            value.isEmpty() -> {
-                valorConta.error = CAMPO_EM_BRANCO
-                holder.binding.btnSalvarForm.disable()
-            }
-            value == "-" -> {
-                return
-            }
-            value.toDouble() == 0.00 -> {
-                setTextColor(valorConta, Color.BLACK)
-                holder.binding.btnSalvarForm.enabled()
-            }
-            value.toDouble() < 0.00 -> {
-                setTextColor(valorConta, Color.RED)
-                holder.binding.btnSalvarForm.enabled()
-            }
-            value.toDouble() > 0.00 -> {
-                setTextColor(valorConta, Color.GREEN)
-                holder.binding.btnSalvarForm.enabled()
-            }
-        }
-    }
-
-    private fun setTextColor(editText: EditText, color: Int) {
-        editText.setTextColor(color)
-    }
-
-    companion object {
-        const val CAMPO_EM_BRANCO = "Campo em branco"
-        const val INVALIDO = "Invalido"
     }
 }

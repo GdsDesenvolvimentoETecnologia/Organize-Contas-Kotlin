@@ -19,20 +19,4 @@ object ViewModelInjection {
             DI.getViewModelFactory()
         )[ConfigurationAppViewModel::class.java]
     }
-
-    fun getConfigAccountViewModel(owner: ViewModelStoreOwner): ConfigAccountViewModel {
-        return ViewModelProvider(
-            owner,
-            DI.getViewModelFactory()
-        )[ConfigAccountViewModel::class.java]
-    }
-
-    fun getConfigCreditCardViewModel(owner: ViewModelStoreOwner): ConfigCreditCardViewModel {
-        return ViewModelProvider(
-            owner,
-            DI.getViewModelFactory()
-        )[ConfigCreditCardViewModel::class.java]
-    }
-
-
 }

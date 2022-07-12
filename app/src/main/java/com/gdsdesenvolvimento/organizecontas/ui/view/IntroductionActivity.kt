@@ -8,6 +8,7 @@ import androidx.annotation.NonNull
 import com.gdsdesenvolvimento.organizecontas.R
 import com.gdsdesenvolvimento.organizecontas.data.dataSource.instances.FBInstance
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
+import com.gdsdesenvolvimento.organizecontas.ui.adapter.ConfigCreditCardAdapter
 import com.gdsdesenvolvimento.organizecontas.utils.extensions.nextScreen
 import com.heinrichreimersoftware.materialintro.app.IntroActivity
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide
@@ -25,7 +26,7 @@ class IntroductionActivity : IntroActivity() {
 
     private fun verifyUserConnected() {
         if (DI.isUserLogged()){
-            nextScreen(ConfigAccountActivity())
+            nextScreen(ConfigCreditCardActivity())
         }
     }
 

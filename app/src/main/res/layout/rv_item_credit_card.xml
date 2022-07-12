@@ -30,6 +30,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:hint="Nome do Banco"
+            android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView25" />
@@ -40,9 +41,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:inputType="number|numberSigned|numberDecimal"
             android:layout_marginEnd="32dp"
             android:hint="Limite total"
+            android:inputType="number|numberSigned|numberDecimal"
+            android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bankNameCreditCard" />
@@ -59,40 +61,28 @@
             app:layout_constraintTop_toBottomOf="@+id/limitCreditCard" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/valor_ja_utilizado"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:ems="10"
             android:inputType="number|numberSigned|numberDecimal"
-            android:text="Valor utilizado"
+            android:hint="Valor utilizado"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@+id/limitCreditCard"
             app:layout_constraintStart_toStartOf="@+id/ckCreditCard"
             app:layout_constraintTop_toBottomOf="@+id/ckCreditCard" />
 
-        <EditText
-            android:id="@+id/editTextDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="Data de pagemento mensal"
-            android:inputType="date"
-            app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
-            app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
-
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnSalvarFormulario"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="salvar"
             android:enabled="false"
-            app:layout_constraintEnd_toEndOf="@+id/editTextDate"
-            app:layout_constraintStart_toStartOf="@+id/editTextDate"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+            android:text="salvar"
+            app:layout_constraintEnd_toEndOf="@+id/valor_ja_utilizado"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/valor_ja_utilizado"
+            app:layout_constraintTop_toBottomOf="@+id/valor_ja_utilizado" />
 
         <View
             android:layout_width="match_parent"
@@ -103,7 +93,7 @@
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button3" />
+            app:layout_constraintTop_toBottomOf="@+id/btnSalvarFormulario" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

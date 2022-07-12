@@ -1,6 +1,7 @@
 package com.gdsdesenvolvimento.organizecontas.data.dataSource.realtime
 
-import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountConfig
+import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountForm
+import com.gdsdesenvolvimento.organizecontas.data.model.ItemCreditCardForm
 import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
@@ -16,11 +17,15 @@ interface DatabaseActions {
         suspend fun saveConfigAccount(
             number: Int,
             idUserLogged: String,
-            item: ItemAccountConfig
+            item: ItemAccountForm
         ): Task<Void>
     }
 
     interface CreditCard {
-
+        fun saveCreditCardConfig(
+            numberPosition: Int,
+            idUserLogged: String,
+            item: ItemCreditCardForm
+        ): Task<Void>
     }
 }

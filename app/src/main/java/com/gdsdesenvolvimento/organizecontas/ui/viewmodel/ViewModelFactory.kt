@@ -22,8 +22,6 @@ class ViewModelFactory(
                 realtimeRepository
             ) as T
             modelClass.isAssignableFrom(ConfigurationAppViewModel::class.java) -> ConfigurationAppViewModel() as T
-            modelClass.isAssignableFrom(ConfigAccountViewModel::class.java) -> ConfigAccountViewModel() as T
-            modelClass.isAssignableFrom(ConfigCreditCardViewModel::class.java) -> ConfigCreditCardViewModel() as T
             else -> throw IllegalStateException(FALHA_VIEWMODEL)
         }
     }
