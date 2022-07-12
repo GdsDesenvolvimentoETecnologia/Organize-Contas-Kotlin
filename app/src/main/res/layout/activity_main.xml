@@ -12,14 +12,14 @@
         android:id="@+id/rvPrincipalAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_principal_account"
+        tools:listitem="@layout/item_principal"
         android:layout_weight="1"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPrincipalCreditCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_principal_credit_card"
+        tools:listitem="@layout/item_principal"
         android:layout_weight="1"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
