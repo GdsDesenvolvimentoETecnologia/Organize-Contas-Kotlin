@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundIntro"
-    app:layoutDescription="@xml/activity_intro_scene"
     tools:context=".ui.view.IntroductionActivity">
 
     <TextView
         android:id="@+id/textView2"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/O"
         android:textColor="@color/my_red"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,6 +26,8 @@
     <TextView
         android:id="@+id/textView5"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/R"
         android:textColor="@color/my_green"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,6 +40,8 @@
     <TextView
         android:id="@+id/textView6"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/G"
         android:textColor="@color/my_purple"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,6 +52,8 @@
     <TextView
         android:id="@+id/textView"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/A"
         android:textColor="@color/my_blue"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,6 +64,8 @@
     <TextView
         android:id="@+id/textView12"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/N"
         android:textColor="@color/my_green"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,6 +78,8 @@
     <TextView
         android:id="@+id/textView9"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/I"
         android:textColor="@color/my_red"
         app:layout_constraintBottom_toTopOf="@+id/textView8"
@@ -77,6 +90,8 @@
     <TextView
         android:id="@+id/textView10"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/Z"
         android:textColor="@color/my_green"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
@@ -87,6 +102,8 @@
     <TextView
         android:id="@+id/textView15"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/E"
         android:textColor="@color/my_purple"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,6 +114,8 @@
     <TextView
         android:id="@+id/textView3"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/C"
         android:textColor="@color/my_purple"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -109,6 +128,8 @@
     <TextView
         android:id="@+id/textView4"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/O"
         android:textColor="@color/my_red"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -121,6 +142,8 @@
     <TextView
         android:id="@+id/textView8"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/N"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,6 +154,8 @@
     <TextView
         android:id="@+id/textView7"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/T"
         android:textColor="@color/my_blue"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -143,6 +168,8 @@
     <TextView
         android:id="@+id/textView13"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/A"
         android:textColor="@color/my_red"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
@@ -153,6 +180,8 @@
     <TextView
         android:id="@+id/textView11"
         style="@style/TextViewIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/S"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -161,4 +190,4 @@
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
 
-</androidx.constraintlayout.motion.widget.MotionLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
