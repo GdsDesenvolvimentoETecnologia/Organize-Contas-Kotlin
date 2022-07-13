@@ -6,6 +6,8 @@ import com.gdsdesenvolvimento.organizecontas.data.dataSource.realtime.DataUser
 import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountForm
 import com.gdsdesenvolvimento.organizecontas.data.model.ItemCreditCardForm
 import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
+import com.google.firebase.database.ValueEventListener
+import java.text.FieldPosition
 
 class RealtimeRepository(
     private val dataUser: DataUser,
@@ -17,4 +19,6 @@ class RealtimeRepository(
     suspend fun deleteAllDataUser(user: UserRegister) = dataUser.deleteAllDataUser(user)
     suspend fun saveAccountsConfig(numberPosition : Int,idUserLogged: String,item: ItemAccountForm) = account.saveConfigAccount(numberPosition,idUserLogged, item)
     suspend fun saveCreditCardConfig(numberPosition : Int,idUserLogged: String,item: ItemCreditCardForm) = creditCard.saveCreditCardConfig(numberPosition,idUserLogged, item)
+    suspend fun listCreditCard(position: String) = creditCard.getItemsCreditCard(position)
+    suspend fun listAccount(position: String) = account.getItemsAccount(position)
 }
