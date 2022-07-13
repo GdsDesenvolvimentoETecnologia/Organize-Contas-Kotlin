@@ -26,7 +26,7 @@ class IntroductionActivity : IntroActivity() {
 
     private fun verifyUserConnected() {
         if (DI.isUserLogged()){
-            nextScreen(ConfigCreditCardActivity())
+            nextScreen(MainActivity())
         }
     }
 
@@ -59,7 +59,4 @@ class IntroductionActivity : IntroActivity() {
                 .build()
         )
     }
-
-    fun login(view: View) = nextScreen(LoginActivity())
-    fun register(view: View) = nextScreen(RegisterActivity())
 }
