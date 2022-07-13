@@ -19,4 +19,7 @@ object ViewModelInjection {
             DI.getViewModelFactory()
         )[ConfigurationAppViewModel::class.java]
     }
+    fun getMainViewModel(owner: ViewModelStoreOwner): MainViewModel {
+        return ViewModelProvider(owner,DI.getViewModelFactory())[MainViewModel::class.java]
+    }
 }

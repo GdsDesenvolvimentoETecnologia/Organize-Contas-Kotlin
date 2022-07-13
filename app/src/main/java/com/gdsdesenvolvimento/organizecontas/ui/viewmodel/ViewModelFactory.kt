@@ -22,6 +22,7 @@ class ViewModelFactory(
                 realtimeRepository
             ) as T
             modelClass.isAssignableFrom(ConfigurationAppViewModel::class.java) -> ConfigurationAppViewModel() as T
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(realtimeRepository) as T
             else -> throw IllegalStateException(FALHA_VIEWMODEL)
         }
     }
