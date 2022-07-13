@@ -1,5 +1,6 @@
 package com.gdsdesenvolvimento.organizecontas.data.di
 
+import android.content.Context
 import com.gdsdesenvolvimento.organizecontas.data.dataSource.auth.LoginDS
 import com.gdsdesenvolvimento.organizecontas.data.dataSource.auth.RegisterDS
 import com.gdsdesenvolvimento.organizecontas.data.dataSource.auth.UserLoggedDS
@@ -16,6 +17,7 @@ import com.gdsdesenvolvimento.organizecontas.data.repository.RealtimeRepository
 import com.gdsdesenvolvimento.organizecontas.ui.adapter.ConfigAccountAdapter
 import com.gdsdesenvolvimento.organizecontas.ui.adapter.ConfigCreditCardAdapter
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.*
+import com.gdsdesenvolvimento.organizecontas.utils.preferences.OrganizePreferences
 import com.gdsdesenvolvimento.organizecontas.utils.results.FinishItemResult
 import com.gdsdesenvolvimento.organizecontas.utils.results.SaveFormResult
 
@@ -51,40 +53,11 @@ object DI {
         )
     }
 
-    private fun getRealtimeRepository(): RealtimeRepository {
+    fun getRealtimeRepository(): RealtimeRepository {
         return RealtimeRepository(
             DataUser(dbRealtime),
             Accounts(dbRealtime),
             CreditCard(dbRealtime)
-        )
-    }
-
-    fun creditCardAdapter(
-        qtdForms: Int,
-        finishItemResult: FinishItemResult,
-        result: SaveFormResult
-    ): ConfigCreditCardAdapter {
-        return ConfigCreditCardAdapter(
-            qtdForms,
-            userKey(),
-            getRealtimeRepository(),
-            finishItemResult,
-            result
-        )
-    }
-
-    fun accountAdapter(
-        qtdForms: Int,
-        finishItemResult: FinishItemResult,
-        result: SaveFormResult
-
-    ): ConfigAccountAdapter {
-        return ConfigAccountAdapter(
-            qtdForms,
-            userKey(),
-            getRealtimeRepository(),
-            finishItemResult,
-            result
         )
     }
 
@@ -108,5 +81,9 @@ object DI {
         return ItemCreditCardForm(
             nameBank, value, ck, valorLimit
         )
+    }
+
+    fun getPreferences(context: Context) : OrganizePreferences{
+        return OrganizePreferences(context)
     }
 }

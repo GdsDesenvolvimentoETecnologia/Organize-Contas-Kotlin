@@ -5,4 +5,7 @@ data class ItemAccountForm(
     var valorNaConta : Double,
     var possuiLimite : Boolean,
     var valorLimite : Double?
-)
+){
+    constructor():this("",0.00,false,0.00)
+}
+
