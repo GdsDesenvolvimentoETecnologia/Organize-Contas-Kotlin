@@ -5,6 +5,7 @@ import com.gdsdesenvolvimento.organizecontas.data.model.ItemCreditCardForm
 import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ValueEventListener
 
 interface DatabaseActions {
     interface DataUser {
@@ -19,13 +20,16 @@ interface DatabaseActions {
             idUserLogged: String,
             item: ItemAccountForm
         ): Task<Void>
+        suspend fun getItemsAccount(position: String): Task<DataSnapshot>
+
     }
 
     interface CreditCard {
-        fun saveCreditCardConfig(
+        suspend fun saveCreditCardConfig(
             numberPosition: Int,
             idUserLogged: String,
             item: ItemCreditCardForm
         ): Task<Void>
+        suspend fun getItemsCreditCard(position : String): Task<DataSnapshot>
     }
 }
