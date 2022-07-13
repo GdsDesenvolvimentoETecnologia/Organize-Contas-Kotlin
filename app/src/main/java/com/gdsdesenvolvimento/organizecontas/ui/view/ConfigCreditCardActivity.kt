@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdsdesenvolvimento.organizecontas.R
+import com.gdsdesenvolvimento.organizecontas.data.di.AdapterInjection
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
 import com.gdsdesenvolvimento.organizecontas.databinding.ActivityConfigCreditCardBinding
 import com.gdsdesenvolvimento.organizecontas.ui.adapter.ConfigCreditCardAdapter
@@ -64,7 +65,7 @@ class ConfigCreditCardActivity : AppCompatActivity() {
     private fun setupAdapter() {
         preferences = OrganizePreferences(this)
         val qtdCreditCard = preferences.getIntPref(Constants.CARTAO)
-        creditCardAdapter = DI.creditCardAdapter(qtdCreditCard, callBackFinishItem,resultSaveForm)
+        creditCardAdapter = AdapterInjection.creditCardAdapter(qtdCreditCard, callBackFinishItem,resultSaveForm)
 
     }
 }

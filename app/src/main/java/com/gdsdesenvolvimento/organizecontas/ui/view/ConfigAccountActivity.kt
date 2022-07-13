@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdsdesenvolvimento.organizecontas.R
+import com.gdsdesenvolvimento.organizecontas.data.di.AdapterInjection
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
 import com.gdsdesenvolvimento.organizecontas.databinding.ActivityConfigAccountBinding
 import com.gdsdesenvolvimento.organizecontas.ui.adapter.ConfigAccountAdapter
@@ -59,7 +60,7 @@ class ConfigAccountActivity : AppCompatActivity() {
     private fun configAdapter() {
         preferences = OrganizePreferences(this)
         val numberAccounts = preferences.getIntPref(Constants.CONTA)
-        accountAdapter = DI.accountAdapter(numberAccounts, callBackFinishItem,resultSaveForm)
+        accountAdapter = AdapterInjection.accountAdapter(numberAccounts, callBackFinishItem,resultSaveForm)
     }
 
 }
