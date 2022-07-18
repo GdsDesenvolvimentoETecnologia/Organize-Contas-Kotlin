@@ -6,9 +6,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
 import com.gdsdesenvolvimento.organizecontas.R
-import com.gdsdesenvolvimento.organizecontas.data.dataSource.instances.FBInstance
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
-import com.gdsdesenvolvimento.organizecontas.ui.adapter.ConfigCreditCardAdapter
 import com.gdsdesenvolvimento.organizecontas.utils.extensions.nextScreen
 import com.heinrichreimersoftware.materialintro.app.IntroActivity
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide
@@ -35,7 +33,7 @@ class IntroductionActivity : IntroActivity() {
 
     private fun addLayoutSlideIntro(
         @LayoutRes layoutSlide: Int,
-        @ColorRes backgroundColor: Int = R.color.backgroundIntro,
+        @ColorRes backgroundColor: Int = R.color.background_gray,
         @NonNull isBackSlide : Boolean = true,
         @NonNull isNextSlide : Boolean = true,
     ) {
