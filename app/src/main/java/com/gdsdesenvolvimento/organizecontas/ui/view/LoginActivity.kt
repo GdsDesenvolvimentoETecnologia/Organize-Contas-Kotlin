@@ -79,18 +79,20 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginSuccess() {
+        binding.pbLogin.hide()
         dialog(this, "Logado", "Parabens voce esta logado ", true) {
             nextScreen(MainActivity())
         }
     }
 
     private fun loginFailure() {
+        binding.pbLogin.hide()
         dialog(this, getString(R.string.falha), getString(R.string.falha_ao_fazer_login), true) {
             finish()
         }
     }
 
     private fun loginLoading() {
-        message(getString(R.string.carregando))
+        binding.pbLogin.show()
     }
 }

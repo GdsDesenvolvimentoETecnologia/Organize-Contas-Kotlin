@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountForm
+import com.gdsdesenvolvimento.organizecontas.data.model.ItemCreditCardForm
 import com.gdsdesenvolvimento.organizecontas.databinding.ItemPrincipalBinding
 
-class MainAdapterAccount(
-    private val listAccount: List<ItemAccountForm>
-) : RecyclerView.Adapter<MainAdapterAccount.MainViewHolder>() {
+class MainAdapterCreditCard(
+    private val listCreditCard: List<ItemCreditCardForm>
+) : RecyclerView.Adapter<MainAdapterCreditCard.MainViewHolder>() {
     inner class MainViewHolder(val binding: ItemPrincipalBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -20,29 +21,20 @@ class MainAdapterAccount(
         )
     }
 
-    override fun getItemCount(): Int = listAccount.size
+    override fun getItemCount(): Int = listCreditCard.size
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        val itemAccountForm = listAccount[position]
+        val itemCreditCard = listCreditCard[position]
         holder.apply {
-            bind(holder.binding, itemAccountForm)
+            bind(holder.binding,itemCreditCard,position)
         }
     }
 
     private fun bind(
         binding: ItemPrincipalBinding,
-        itemAccountForm: ItemAccountForm
+        itemCreditCardForm: ItemCreditCardForm,
+        position: Int
     ) {
-        binding.bankName.text = itemAccountForm.nomeDoBanco
-        binding.valorInicial.text = itemAccountForm.valorNaConta.toString()
-        if (itemAccountForm.possuiLimite) {
-            binding.valorRestante.text =
-                valorRestante(itemAccountForm.valorNaConta, itemAccountForm.valorLimite!!)
-        }
-    }
 
-    private fun valorRestante(valorNaConta: Double, valorLimite: Double): CharSequence? {
-        val result = valorNaConta + valorLimite
-        return result.toString()
     }
 }

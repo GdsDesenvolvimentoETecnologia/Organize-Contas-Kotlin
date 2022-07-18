@@ -1,17 +1,20 @@
 <resources>
+    <!--    App name-->
     <string name="app_name">Organize Contas</string>
+    <!--init SplashActivity-->
+    <!--xml-->
+    <string name="organize">Organize</string>
+    <!--Class-->
+    <!--End SplashActivity-->
+
+    <!--init IntroductionActivity-->
+    <!--xml-->
+
+    <!--Class-->
+    <!--End IntroductionActivity-->
+
+
     <string name="bank_cards">bank cards</string>
-    <string name="O">O</string>
-    <string name="R">R</string>
-    <string name="G">G</string>
-    <string name="A">A</string>
-    <string name="N">N</string>
-    <string name="I">I</string>
-    <string name="Z">Z</string>
-    <string name="E">E</string>
-    <string name="C">C</string>
-    <string name="T">T</string>
-    <string name="S">S</string>
     <string name="crie_sua_conta_gratis">Crie sua conta Gratis</string>
     <string name="junte_se_ao_nosso_app_n_aqui_sua_vida_financeira_importa_n_nos_podemos_ajudar_a_organiza_la">Junte-se ao nosso app \n aqui sua vida financeira importa\n nos podemos ajudar a organiza-la</string>
     <string name="ja_tenho_conta">Ja tenho conta!</string>
@@ -26,37 +29,9 @@
     <string name="falha_ao_fazer_login">Falha ao fazer login</string>
     <string name="valor_invalido">valor invalido</string>
     <string name="campo_em_branco">Campo em branco</string>
-    <string-array name="dias_do_mes">
-            <item>1</item>
-            <item>2</item>
-            <item>3</item>
-            <item>4</item>
-            <item>5</item>
-            <item>6</item>
-            <item>7</item>
-            <item>8</item>
-            <item>9</item>
-            <item>10</item>
-            <item>11</item>
-            <item>12</item>
-            <item>13</item>
-            <item>14</item>
-            <item>15</item>
-            <item>16</item>
-            <item>17</item>
-            <item>18</item>
-            <item>19</item>
-            <item>20</item>
-            <item>21</item>
-            <item>22</item>
-            <item>23</item>
-            <item>24</item>
-            <item>25</item>
-            <item>26</item>
-            <item>27</item>
-            <item>28</item>
-            <item>29</item>
-            <item>30</item>
-            <item>31</item>
-    </string-array>
+    <string name="formulario_com_erro">Formulario com erro ou campo em branco</string>
+    <string name="configura_o_para_o_app">Configuração para o App</string>
+    <string name="account">Contas</string>
+    <string name="version_app">Versao: 1.0.0</string>
+
 </resources>

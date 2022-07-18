@@ -1,22 +1,16 @@
 package com.gdsdesenvolvimento.organizecontas.ui.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.EditText
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.whenResumed
+import androidx.appcompat.app.AppCompatActivity
 import com.gdsdesenvolvimento.organizecontas.R
 import com.gdsdesenvolvimento.organizecontas.data.di.DI
 import com.gdsdesenvolvimento.organizecontas.data.di.ViewModelInjection
 import com.gdsdesenvolvimento.organizecontas.data.model.UserRegister
 import com.gdsdesenvolvimento.organizecontas.databinding.ActivityRegisterBinding
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.RegisterViewModel
-import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.ViewModelFactory
 import com.gdsdesenvolvimento.organizecontas.utils.extensions.*
 import com.gdsdesenvolvimento.organizecontas.utils.results.FormResult
 import com.gdsdesenvolvimento.organizecontas.utils.state.DataUserState
-import com.gdsdesenvolvimento.organizecontas.utils.state.FormState
 import com.gdsdesenvolvimento.organizecontas.utils.state.RegisterFormState
 
 class RegisterActivity : AppCompatActivity() {
@@ -142,26 +136,27 @@ class RegisterActivity : AppCompatActivity() {
         viewModel.formResult.observe(this) { result ->
             when (result) {
                 is FormResult.Success -> {
+                    binding.pbRegister.hide()
                     viewModel.saveDataUserRegister(newUser)
                 }
                 is FormResult.Error -> {
+                    binding.pbRegister.hide()
                     dialog(
                         this,
                         getString(R.string.falha),
-                        "Formulario com erro ou campo em branco",
+                        getString(R.string.formulario_com_erro),
                         true
                     ) {
                         finish()
                     }
                 }
-                is FormResult.Loading -> {
-                    message(getString(R.string.carregando))
-                }
+                is FormResult.Loading -> {}
             }
         }
         viewModel.saveData.observe(this) { resultSaveData ->
             when (resultSaveData) {
                 is DataUserState.Success -> {
+                    binding.pbRegister.hide()
                     dialog(
                         this,
                         getString(R.string.bem_vindo_novo_integrante),
@@ -172,6 +167,7 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
                 is DataUserState.Error -> {
+                    binding.pbRegister.hide()
                     dialog(
                         this,
                         getString(R.string.falha),
@@ -182,7 +178,7 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
                 is DataUserState.Loading -> {
-                    message("Continua carregando agora pra salvar")
+                    binding.pbRegister.show()
                 }
             }
         }

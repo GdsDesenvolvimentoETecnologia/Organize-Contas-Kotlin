@@ -19,17 +19,6 @@ class IntroductionActivity : IntroActivity() {
         sliderIntro()
     }
 
-    override fun onStart() {
-        super.onStart()
-        verifyUserConnected()
-    }
-
-    private fun verifyUserConnected() {
-        if (DI.isUserLogged()){
-            nextScreen(MainActivity())
-        }
-    }
-
     private fun sliderIntro() {
         configButtonNavigationSlideIntro()
         addLayoutSlideIntro(R.layout.intro_slide, isBackSlide = false)
@@ -59,4 +48,19 @@ class IntroductionActivity : IntroActivity() {
                 .build()
         )
     }
+
+    override fun onStart() {
+        super.onStart()
+        verifyUserConnected()
+    }
+
+    private fun verifyUserConnected() {
+        if (DI.isUserLogged()){
+            nextScreen(MainActivity())
+        }
+    }
+
+    fun login(view: View) = nextScreen(LoginActivity())
+
+    fun register(view: View) = nextScreen(RegisterActivity())
 }
