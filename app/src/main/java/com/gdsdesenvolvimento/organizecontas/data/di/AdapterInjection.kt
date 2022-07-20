@@ -10,10 +10,10 @@ import com.gdsdesenvolvimento.organizecontas.utils.results.FinishItemResult
 import com.gdsdesenvolvimento.organizecontas.utils.results.SaveFormResult
 
 object AdapterInjection {
-    fun getAdapterMainAccount(list : List<ItemAccountForm>): MainAdapterAccount {
+    fun getAdapterMainAccount(list : ArrayList<ItemAccountForm>): MainAdapterAccount {
         return MainAdapterAccount(list)
     }
-    fun getAdapterMainCreditCard(list : List<ItemCreditCardForm>): MainAdapterCreditCard {
+    fun getAdapterMainCreditCard(list : ArrayList<ItemCreditCardForm>): MainAdapterCreditCard {
         return MainAdapterCreditCard(list)
     }
     fun creditCardAdapter(

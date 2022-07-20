@@ -21,4 +21,5 @@ class RealtimeRepository(
     suspend fun saveCreditCardConfig(numberPosition : Int,idUserLogged: String,item: ItemCreditCardForm) = creditCard.saveCreditCardConfig(numberPosition,idUserLogged, item)
     suspend fun listCreditCard(position: String) = creditCard.getItemsCreditCard(position)
     suspend fun listAccount(position: String) = account.getItemsAccount(position)
+    suspend fun qtdItemsList() = account.qtdItemsLit()
 }

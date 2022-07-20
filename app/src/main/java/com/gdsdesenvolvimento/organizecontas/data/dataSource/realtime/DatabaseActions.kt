@@ -21,6 +21,7 @@ interface DatabaseActions {
             item: ItemAccountForm
         ): Task<Void>
         suspend fun getItemsAccount(position: String): Task<DataSnapshot>
+        suspend fun qtdItemsLit(): Task<DataSnapshot>
 
     }
 

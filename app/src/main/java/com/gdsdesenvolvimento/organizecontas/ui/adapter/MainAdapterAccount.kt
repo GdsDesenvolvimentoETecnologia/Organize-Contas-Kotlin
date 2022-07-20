@@ -7,13 +7,13 @@ import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountForm
 import com.gdsdesenvolvimento.organizecontas.databinding.ItemPrincipalBinding
 
 class MainAdapterAccount(
-    private val listAccount: List<ItemAccountForm>
-) : RecyclerView.Adapter<MainAdapterAccount.MainViewHolder>() {
-    inner class MainViewHolder(val binding: ItemPrincipalBinding) :
+    private val listAccount: ArrayList<ItemAccountForm>
+) : RecyclerView.Adapter<MainAdapterAccount.AccountViewHolder>() {
+    inner class AccountViewHolder(val binding: ItemPrincipalBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        return MainViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
+        return AccountViewHolder(
             ItemPrincipalBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
@@ -22,10 +22,10 @@ class MainAdapterAccount(
 
     override fun getItemCount(): Int = listAccount.size
 
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
         val itemAccountForm = listAccount[position]
         holder.apply {
-            bind(holder.binding, itemAccountForm)
+            bind(this.binding, itemAccountForm)
         }
     }
 
@@ -34,10 +34,11 @@ class MainAdapterAccount(
         itemAccountForm: ItemAccountForm
     ) {
         binding.bankName.text = itemAccountForm.nomeDoBanco
-        binding.valorInicial.text = itemAccountForm.valorNaConta.toString()
         if (itemAccountForm.possuiLimite) {
-            binding.valorRestante.text =
+            binding.textValorTotal.text =
                 valorRestante(itemAccountForm.valorNaConta, itemAccountForm.valorLimite!!)
+        } else {
+            binding.textValorTotal.text = itemAccountForm.valorNaConta.toString()
         }
     }
 

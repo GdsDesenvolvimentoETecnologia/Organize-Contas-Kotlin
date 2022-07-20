@@ -19,4 +19,7 @@ class Accounts(private val db : DatabaseReference) : DatabaseActions.Accounts {
     override suspend fun getItemsAccount(position: String): Task<DataSnapshot> {
         return db.child(DBConstants.USUARIOS).child(DI.userKey()).child(DBConstants.ACCOUNT_CONFIG).child(position).get()
     }
+    override suspend fun qtdItemsLit(): Task<DataSnapshot> {
+        return db.child(DBConstants.USUARIOS).child(DI.userKey()).get()
+    }
 }

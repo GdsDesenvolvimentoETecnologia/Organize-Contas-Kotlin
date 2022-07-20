@@ -3,38 +3,45 @@ package com.gdsdesenvolvimento.organizecontas.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountForm
 import com.gdsdesenvolvimento.organizecontas.data.model.ItemCreditCardForm
 import com.gdsdesenvolvimento.organizecontas.databinding.ItemPrincipalBinding
 
 class MainAdapterCreditCard(
-    private val listCreditCard: List<ItemCreditCardForm>
-) : RecyclerView.Adapter<MainAdapterCreditCard.MainViewHolder>() {
-    inner class MainViewHolder(val binding: ItemPrincipalBinding) :
+    private val listCreditCard: ArrayList<ItemCreditCardForm>
+) : RecyclerView.Adapter<MainAdapterCreditCard.CreditCardViewHolder>() {
+
+    inner class CreditCardViewHolder(val binding: ItemPrincipalBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        return MainViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CreditCardViewHolder {
+        return CreditCardViewHolder(
             ItemPrincipalBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
     }
 
-    override fun getItemCount(): Int = listCreditCard.size
+    override fun getItemCount(): Int {
+        return listCreditCard.size
+    }
 
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CreditCardViewHolder, position: Int) {
         val itemCreditCard = listCreditCard[position]
         holder.apply {
-            bind(holder.binding,itemCreditCard,position)
+            bind(this.binding, itemCreditCard)
         }
     }
 
     private fun bind(
         binding: ItemPrincipalBinding,
         itemCreditCardForm: ItemCreditCardForm,
-        position: Int
     ) {
-
+        binding.bankName.text = itemCreditCardForm.nomeDoBanco
+        if (itemCreditCardForm.isLimitUsage) {
+            binding.textValorTotal.text =
+                (itemCreditCardForm.limiteDoCartao - itemCreditCardForm.valueLimitUsage).toString()
+        } else {
+            binding.textValorTotal.text = itemCreditCardForm.limiteDoCartao.toString()
+        }
     }
 }

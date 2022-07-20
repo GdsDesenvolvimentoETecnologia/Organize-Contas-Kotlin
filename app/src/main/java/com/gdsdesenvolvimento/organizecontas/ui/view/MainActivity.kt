@@ -1,10 +1,10 @@
 package com.gdsdesenvolvimento.organizecontas.ui.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdsdesenvolvimento.organizecontas.data.di.AdapterInjection
-import com.gdsdesenvolvimento.organizecontas.data.di.DI
 import com.gdsdesenvolvimento.organizecontas.data.di.ViewModelInjection
 import com.gdsdesenvolvimento.organizecontas.data.model.ItemAccountForm
 import com.gdsdesenvolvimento.organizecontas.data.model.ItemCreditCardForm
@@ -12,87 +12,86 @@ import com.gdsdesenvolvimento.organizecontas.databinding.ActivityMainBinding
 import com.gdsdesenvolvimento.organizecontas.ui.adapter.MainAdapterAccount
 import com.gdsdesenvolvimento.organizecontas.ui.adapter.MainAdapterCreditCard
 import com.gdsdesenvolvimento.organizecontas.ui.viewmodel.MainViewModel
-import com.gdsdesenvolvimento.organizecontas.utils.Constants
+import com.gdsdesenvolvimento.organizecontas.utils.extensions.dialog
+import com.gdsdesenvolvimento.organizecontas.utils.extensions.hide
+import com.gdsdesenvolvimento.organizecontas.utils.extensions.show
 import com.gdsdesenvolvimento.organizecontas.utils.results.ListResult
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var creditCardAdapter: MainAdapterCreditCard
-    private lateinit var accountAdapter: MainAdapterAccount
     private lateinit var viewModel: MainViewModel
-
-    private var listCreditCard: ArrayList<ItemCreditCardForm> = arrayListOf()
-    private var listAccount: ArrayList<ItemAccountForm> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         viewModel = ViewModelInjection.getMainViewModel(this)
         setContentView(binding.root)
-        fetchLists()
         observers()
     }
 
-    private fun fetchLists() {
-        val qtdCard = qtdCardPreferences()
-        val qtdAccount = qtdAccountPreferences()
-        viewModel.fetchLists(qtdAccount, qtdCard)
-    }
-
-    private fun qtdAccountPreferences(): Int {
-        return DI.getPreferences(this).getIntPref(Constants.CONTA)
-    }
-
-    private fun qtdCardPreferences(): Int {
-        return DI.getPreferences(this).getIntPref(Constants.CARTAO)
-    }
-
     private fun observers() {
-        viewModel.listsResultCreditCard.observe(this) {
+        viewModel.listResults.observe(this) {
             when (it) {
-                is ListResult.Success -> {
-                    listCreditCard.addAll(it.data.first)
+                false -> {
+                    dialog(this, "falha", "falhha ao carregar listas", false) {
+                        finish()
+                    }
                 }
-                is ListResult.Error -> {
-
-                }
-                is ListResult.Loading -> {
-
+                true -> {
+                    observersLists()
                 }
             }
         }
-        viewModel.listsResultAccount.observe(this) {
-            when (it) {
+    }
+
+    private fun observersLists() {
+        viewModel.listsResultAccount.observe(this) { resultAccount ->
+            when (resultAccount) {
                 is ListResult.Success -> {
-                    listAccount.addAll(it.data.second)
+                    binding.progressBarAccountList.hide()
+                    binding.rvPrincipalAccount.apply {
+                        adapter = AdapterInjection.getAdapterMainAccount(resultAccount.data)
+                        layoutManager = LinearLayoutManager(
+                            this@MainActivity,
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+                    }
                 }
                 is ListResult.Error -> {
-
+                    binding.progressBarAccountList.hide()
+                    dialog(this,"Falha","Erro ao carregar",false){
+                        finish()
+                    }
                 }
                 is ListResult.Loading -> {
-
+                    binding.progressBarAccountList.show()
                 }
             }
         }
-        setupAdapters()
-    }
-
-    private fun setupAdapters() {
-        creditCardAdapter = AdapterInjection.getAdapterMainCreditCard(listCreditCard)
-        accountAdapter = AdapterInjection.getAdapterMainAccount(listAccount)
-        initComponents()
-    }
-
-    private fun initComponents() {
-        binding.rvPrincipalAccount.apply {
-            adapter = accountAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity)
+        viewModel.listsResultCreditCard.observe(this) { resultCreditCard ->
+            when (resultCreditCard) {
+                is ListResult.Success -> {
+                    binding.progressBarCreditCard.hide()
+                    binding.rvPrincipalCreditCard.apply {
+                        adapter = AdapterInjection.getAdapterMainCreditCard(resultCreditCard.data)
+                        layoutManager = LinearLayoutManager(
+                            this@MainActivity,
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+                    }
+                }
+                is ListResult.Error -> {
+                    binding.progressBarCreditCard.hide()
+                    dialog(this,"Falha","Erro ao carregar",false){
+                        finish()
+                    }
+                }
+                is ListResult.Loading -> {
+                    binding.progressBarCreditCard.show()
+                }
+            }
         }
-
-        binding.rvPrincipalCreditCard.apply {
-            adapter = creditCardAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity)
-        }
     }
-
 }
